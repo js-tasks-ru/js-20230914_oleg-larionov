@@ -5,12 +5,17 @@
  * @returns {string[]}
  */
 
+function sorted(arr, dir) {
+    return arr.sort((a, b) =>  a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'}) * dir )
+}
 export function sortStrings(arr, param = 'asc') {
-    let newArr = arr.slice().sort((a, b) => a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'}))
+    let newArr = [...arr]
     if(param === 'asc') {
-        return newArr
+        return sorted(newArr, 1)
     }
     else {
-        return newArr.reverse()
+        return sorted(newArr, -1)
     }
   }
+
+
