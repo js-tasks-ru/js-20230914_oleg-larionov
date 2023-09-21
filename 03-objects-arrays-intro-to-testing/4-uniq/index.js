@@ -4,14 +4,18 @@
  * @returns {*[]} - the new array with uniq values
  */
 export function uniq(arr) {
-    if(!arr) {
+    if(!arr || arr.length === 0) {
         return []
     }
-    const res = new Set();
-    for (let i = 0; i < arr.length; i++) {
-        res.add(arr[i]);
+    else {
+        const res = new Set(arr);
+        return [...res] 
     }
-    return [...res]
+    // const res = new Set();
+    // for (let i = 0; i < arr.length; i++) {
+    //     res.add(arr[i]);
+    // }
+    // return [...res]
 
     // let res = []
     // for (let i = 0; i < arr.length; i++) {
