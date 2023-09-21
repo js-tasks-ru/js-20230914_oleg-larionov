@@ -8,10 +8,10 @@ export function createGetter(path) {
     return function (obj) {
         let curStep = obj
         while(typeof curStep === 'object') {
-            
-            let firstEl = pathArr[0]
-            pathArr = pathArr.slice(1)
-            curStep = curStep[firstEl]
+           
+            const [head, ...rest] = pathArr
+            curStep = curStep[head]
+            pathArr = rest;
         }
         return curStep
     }
