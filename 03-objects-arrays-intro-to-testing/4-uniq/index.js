@@ -8,20 +8,7 @@ export function uniq(arr) {
         return []
     }
     else {
-        const res = new Set(arr);
-        return [...res] 
+        return Array.from(new Set(arr))
     }
-    // const res = new Set();
-    // for (let i = 0; i < arr.length; i++) {
-    //     res.add(arr[i]);
-    // }
-    // return [...res]
-
-    // let res = []
-    // for (let i = 0; i < arr.length; i++) {
-    //     if (!res.includes(arr[i])) {
-    //         res.push(arr[i])
-    //     }
-    // }
-    // return res
+    
 }
