@@ -6,16 +6,16 @@
  */
 
 function sorted(arr, dir) {
-    return arr.sort((a, b) =>  a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'}) * dir )
+  return arr.sort((a, b) => a.localeCompare(b, ['ru', 'en'], {caseFirst: 'upper'}) * dir);
 }
 export function sortStrings(arr, param = 'asc') {
-    let newArr = [...arr]
-    if(param === 'asc') {
-        return sorted(newArr, 1)
-    }
-    else {
-        return sorted(newArr, -1)
-    }
+  let newArr = [...arr];
+  if (param === 'asc') {
+    return sorted(newArr, 1);
   }
+  else {
+    return sorted(newArr, -1);
+  }
+}
 
 

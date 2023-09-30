@@ -5,31 +5,31 @@
  * @returns {string} - the new string without extra symbols according passed size
  */
 export function trimSymbols(string, size) {
-    if(size === 0) {
-        return ''
-    }
-    if(!size) {
-        return string
-    }
-    let res = '';
+  if (size === 0) {
+    return '';
+  }
+  if (!size) {
+    return string;
+  }
+  let res = '';
 
-    let counter = 0;
-    let curChar = '';
+  let counter = 0;
+  let curChar = '';
   
-    for (let i = 0; i < string.length; i++) {
-      const char = string[i];
-      if (char === curChar) {
-        counter++;
-      } 
-      else {
-        counter = 1;
-        curChar = char;
-      }
-  
-      if (counter <= size) {
-        res += char;
-      }
+  for (let i = 0; i < string.length; i++) {
+    const char = string[i];
+    if (char === curChar) {
+      counter++;
+    } 
+    else {
+      counter = 1;
+      curChar = char;
     }
   
-    return res
+    if (counter <= size) {
+      res += char;
+    }
+  }
+  
+  return res;
 }
