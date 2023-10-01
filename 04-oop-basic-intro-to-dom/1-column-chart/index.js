@@ -46,18 +46,28 @@ export default class ColumnChart {
   }
 
   getBarChartTemplate(data) {
-    const maxValue = Math.max(...data);
+    const maxValue = this.getMaxDataValue(data);
     return data.map(el => {
       const percent = (el / maxValue * 100).toFixed(0);
       return `<div style="--value: ${Math.floor(el * 50 / maxValue)}" data-tooltip="${percent}%"></div>`;
     }).join('');
+  }
+  getMaxDataValue(data) {
+    return Math.max(...data);
   }
   getLinkTemplate() {
     return this.link ? `<a class="column-chart__link" href="${this.link}">View all</a>` : '';
   }
 
   update(newData) {
+    if (newData.length && !this.data.length) {
+      this.element.classList.remove('column-chart_loading');
+    }
+    else if (!newData.length && this.data.length) {
+      this.element.classList.add('column-chart_loading');
+    }
     this.data = newData;
+    this.element.querySelector(".column-chart__chart").innerHTML = this.getBarChartTemplate(this.data);
   }
   remove() {
     this.element.remove();
