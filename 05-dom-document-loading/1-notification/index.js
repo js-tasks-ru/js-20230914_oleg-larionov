@@ -6,10 +6,12 @@ export default class NotificationMessage {
         this.duration = duration;
         this.type = type;
         this.element = this.createElement();
+        // this.element = null
       }
     createElement() {
         const element = document.createElement('div');
         element.innerHTML = this.getTemplate();
+        
         return element
     }
     getDelayTimeInSeconds(milliseconds) {
@@ -28,21 +30,25 @@ export default class NotificationMessage {
     }
     destroy() {
         // setTimeout( this.remove,  this.duration)
-        this.element.remove()
+        // this.element.remove()
+        document.querySelector('.notification').parentElement.remove()
     }
     remove() {
         // this.element.remove()
         // alert(Object.entries(this)) 
-        setTimeout( this.element.remove(),  this.duration)
+        setTimeout( this.destroy,  this.duration)
+        // setTimeout( this.element.remove,  this.duration)
 
     }
     show() {
-        // alert(this.duration)
-        // alert(this.type)
-        
-        const el = document.getElementById('btn1');
-        el.innerHTML = this.getTemplate();
+        // const el = document.getElementById('btn1');
+        // el.innerHTML = this.getTemplate();
+        // this.remove()
+
+
+        const el = this.createElement()
+        this.element = el
+        document.body.appendChild(el)
         this.remove()
-        // this.destroy()
     }
 }
