@@ -33,17 +33,23 @@ export default class NotificationMessage {
         </div>`
   }
   destroy() {
-    this.element.remove()
+    clearTimeout(this.timeout);
+    this.timeout = null;
+    this.element.remove();
     // document.querySelector('.notification').parentElement.remove()
     // setTimeout( this.remove,  this.duration)
     // this.element.remove()
   }
   removeLogic() {
-    document.querySelector('.notification').remove()
+    while(document.querySelector('.notification')) {
+
+      document.querySelector('.notification').remove()
+    }
 
   }
   remove() {
-    setTimeout(this.removeLogic, this.duration)
+    // setTimeout(this.removeLogic, this.duration)
+    setTimeout(() => this.removeLogic(), this.duration)
     // this.element.remove()
     // alert(Object.entries(this)) 
     // setTimeout( this.element.remove,  this.duration)
@@ -65,6 +71,7 @@ export default class NotificationMessage {
       document.body.appendChild(el)
     }
     this.remove()
+    // this.timeout = setTimeout( () => this.destroy(), this.duration) 
     
   }
 }
