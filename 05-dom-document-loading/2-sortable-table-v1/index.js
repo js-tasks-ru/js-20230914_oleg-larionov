@@ -3,60 +3,97 @@ export default class SortableTable {
     this.headerConfig = headerConfig;
     this.data = [...data];
 
-    this.element = this.createElement()
-    console.log(this.data)
-    console.log(this.headerConfig)
-    // this.render()
+    this.element = this.createElement();
+    this.subElement = this.getSubElements();
   }
-  // render() {
-  //   const element = document.createElement("div");
-  //   element.classList.add("sortable-table");
-  //   this.element = element;
-
-  //   // this.update();
-  // }
   createElement() {
-    const root = document.getElementById('root');
-    root.innerHTML = this.getTemplate();
+    const element = document.createElement('div');
+    element.classList.add("sortable-table");
+    element.innerHTML = this.getTemplate();
+    return element;
   }
-  getTableRowsTemplate() {
-    return this.data.map(el =>
-      `<a href="/products/3d-ochki-epson-elpgs03" class="sortable-table__row">
-        <div class="sortable-table__cell">
-          <img class="sortable-table-image" alt="Image" src="http://magazilla.ru/jpg_zoom1/246743.jpg">
-        </div>
-        <div class="sortable-table__cell">${el.title}</div>
-
-        <div class="sortable-table__cell">${el.quantity}</div>
-        <div class="sortable-table__cell">${el.price}</div>
-        <div class="sortable-table__cell">${el.sales}</div>
-      </a>`).join('')
-
+  getTableBodyTemplate() {
+    return this.data
+      .map(
+        (item) => `<a href="/products/${item.id}" class="sortable-table__row">
+          ${this.getTableRowTemplate(item)}
+        </a>`
+      ).join("");
   }
+
+  getTableRowTemplate(item) {
+    const rowTemplate = this.headerConfig.reduce((result, el) => {
+      if (el.template) {
+        return result + el.template(item[el.id]);
+      }
+      return result + `<div class="sortable-table__cell">${item[el.id]}</div>`;
+    }, "");
+    return rowTemplate;
+  }
+
   getHeaderTemplate() {
     return this.headerConfig.map((el) =>
-      `<div class="sortable-table__cell" data-id="${el.id}" data-sortable="${el.sortable}" data-order="asc">
+      `<div class="sortable-table__cell" data-id="${el.id}" data-sortable="${el.sortable}" data-order="">
         <span>${el.title}</span>
       </div>`
-    ).join('')
+    ).join('');
   }
   getTemplate() {
-    return `<div class="sortable-table">
-      
+    return `
         <div data-element="header" class="sortable-table__header sortable-table__row">
           ${this.getHeaderTemplate()}
         </div>
 
         <div data-element="body" class="sortable-table__body">
-          ${this.getTableRowsTemplate()}
-        </div>
-    </div>`
+          ${this.getTableBodyTemplate()}
+        </div>`;
+  }
+  updateTemplate() {
+    this.element.innerHTML = '';
+    this.element.insertAdjacentElement('afterbegin', this.createElement());
+    this.subElements = this.getSubElements();
   }
   destroy() {
-    this.remove()
+    this.remove();
   }
   remove() {
     this.element.remove();
   }
-}
+  sort(fieldValue, orderValue) {
+    const config = this.getSortingParams(fieldValue);
+    const property = config.id;
+    const sortType = config.sortType;
 
+    if (sortType === 'string') {
+      this.sortStrings(property, orderValue);
+    }
+    else if (sortType === 'number') {
+      this.sortNumbers(property, orderValue);
+    }
+    
+    this.updateTemplate();
+  }
+
+  getSortingParams(field) {
+    return this.headerConfig.find((configure) => field === configure.id);
+  }
+  sortNumbers(property, order) {
+    this.data
+      .sort((a, b) => order === 'asc'
+        ? a[property] - b[property]
+        : b[property] - a[property]
+      );
+  }
+
+  sortStrings(property, order) {
+    this.data.sort((a, b) => order === 'asc' 
+      ? a[property].localeCompare(b[property], ['ru', 'en'], {caseFirst: 'upper'}) * 1
+      : a[property].localeCompare(b[property], ['ru', 'en'], {caseFirst: 'upper'}) * -1
+    );
+  }
+  getSubElements() {
+    return { body: this.element.querySelector('[data-element=body]') };
+  }
+
+
+}

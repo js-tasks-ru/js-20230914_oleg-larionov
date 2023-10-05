@@ -8,7 +8,7 @@ export default class NotificationMessage {
     this.element = this.createElement();
     // alert(this.element)
     // this.element = null
-    this.remove()
+    this.remove();
   }
   createElement() {
     const element = document.createElement('div');
@@ -18,10 +18,10 @@ export default class NotificationMessage {
     element.innerHTML = this.getTemplate();
 
     // const element = this.getTemplate();
-    return element
+    return element;
   }
   getDelayTimeInSeconds(milliseconds) {
-    return milliseconds / 1000
+    return milliseconds / 1000;
   }
   getTemplate() {
     return `<div class="timer"></div>
@@ -30,7 +30,7 @@ export default class NotificationMessage {
           <div class="notification-body">
             ${this.message}
           </div>
-        </div>`
+        </div>`;
   }
   destroy() {
     clearTimeout(this.timeout);
@@ -41,15 +41,15 @@ export default class NotificationMessage {
     // this.element.remove()
   }
   removeLogic() {
-    while(document.querySelector('.notification')) {
+    while (document.querySelector('.notification')) {
 
-      document.querySelector('.notification').remove()
+      document.querySelector('.notification').remove();
     }
 
   }
   remove() {
     // setTimeout(this.removeLogic, this.duration)
-    setTimeout(() => this.removeLogic(), this.duration)
+    setTimeout(() => this.removeLogic(), this.duration);
     // this.element.remove()
     // alert(Object.entries(this)) 
     // setTimeout( this.element.remove,  this.duration)
@@ -60,17 +60,17 @@ export default class NotificationMessage {
     // el.innerHTML = this.getTemplate();
     // this.remove()
 
-    if (div) {        // const element = document.createElement('div');
+    if (div) { // const element = document.createElement('div');
       div.classList.add("notification", this.type);
       div.setAttribute("style", `--value: ${this.getDelayTimeInSeconds(this.duration)}s;`);
       div.innerHTML = this.getTemplate();
     }
     else {
-      const el = this.createElement()
-      this.element = el
-      document.body.appendChild(el)
+      const el = this.createElement();
+      this.element = el;
+      document.body.appendChild(el);
     }
-    this.remove()
+    this.remove();
     // this.timeout = setTimeout( () => this.destroy(), this.duration) 
     
   }
