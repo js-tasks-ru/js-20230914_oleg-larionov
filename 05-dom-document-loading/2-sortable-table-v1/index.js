@@ -9,19 +9,19 @@ export default class SortableTable {
   createElement() {
     const element = document.createElement('div');
     element.classList.add("sortable-table");
-    element.innerHTML = this.getTemplate();
+    element.innerHTML = this.createTemplate();
     return element;
   }
-  getTableBodyTemplate() {
+  createTableBodyTemplate() {
     return this.data
       .map(
         (item) => `<a href="/products/${item.id}" class="sortable-table__row">
-          ${this.getTableRowTemplate(item)}
+          ${this.createTableRowTemplate(item)}
         </a>`
       ).join("");
   }
 
-  getTableRowTemplate(item) {
+  createTableRowTemplate(item) {
     const rowTemplate = this.headerConfig.reduce((result, el) => {
       if (el.template) {
         return result + el.template(item[el.id]);
@@ -31,21 +31,21 @@ export default class SortableTable {
     return rowTemplate;
   }
 
-  getHeaderTemplate() {
+  createHeaderTemplate() {
     return this.headerConfig.map((el) =>
       `<div class="sortable-table__cell" data-id="${el.id}" data-sortable="${el.sortable}" data-order="">
         <span>${el.title}</span>
       </div>`
     ).join('');
   }
-  getTemplate() {
+  createTemplate() {
     return `
         <div data-element="header" class="sortable-table__header sortable-table__row">
-          ${this.getHeaderTemplate()}
+          ${this.createHeaderTemplate()}
         </div>
 
         <div data-element="body" class="sortable-table__body">
-          ${this.getTableBodyTemplate()}
+          ${this.createTableBodyTemplate()}
         </div>`;
   }
   updateTemplate() {
@@ -66,12 +66,13 @@ export default class SortableTable {
 
     if (sortType === 'string') {
       this.sortStrings(property, orderValue);
+      this.updateTemplate();
     }
     else if (sortType === 'number') {
       this.sortNumbers(property, orderValue);
+      this.updateTemplate();
     }
     
-    this.updateTemplate();
   }
 
   getSortingParams(field) {
