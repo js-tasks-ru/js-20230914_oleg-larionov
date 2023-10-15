@@ -1,6 +1,6 @@
 export default class SortableTable {
   constructor(headerConfig = [], data = []) {
-    this.headerConfig = headerConfig;
+    this.headerConfig = [...headerConfig];
     this.data = [...data];
 
     this.element = this.createElement();
@@ -61,18 +61,11 @@ export default class SortableTable {
   }
   sort(fieldValue, orderValue) {
     const config = this.getSortingParams(fieldValue);
-    const property = config.id;
-    const sortType = config.sortType;
+    config.sortType === 'string' 
+      ? this.sortStrings(config.id, orderValue)
+      : this.sortNumbers(config.id, orderValue)
 
-    if (sortType === 'string') {
-      this.sortStrings(property, orderValue);
-      this.updateTemplate();
-    }
-    else if (sortType === 'number') {
-      this.sortNumbers(property, orderValue);
-      this.updateTemplate();
-    }
-    
+    this.updateTemplate();
   }
 
   getSortingParams(field) {

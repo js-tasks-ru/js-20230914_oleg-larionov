@@ -3,12 +3,11 @@ export default class SortableTable {
     data = [],
     sorted = {}
   } = {}) {
-    this.headersConfig = headersConfig;
+    this.headersConfig = [...headersConfig];
     this.data = [...data];
     this.sorted = { ...sorted };
     this.element = this.createElement();
     this.sort(sorted.id, sorted.order);
-    console.log(this.sorted);
   }
 
   createElement() {
