@@ -152,13 +152,11 @@ export default class ProductForm {
   }
 
   createEvents() {
-    this.createEvents();
     this.subElements.productForm.addEventListener("item-deleted", this.handleListAlter);
     this.subElements.productForm.addEventListener("item-dragged", this.handleListAlter);
   }
 
   removeEvents() {
-    this.removeEvents();
     this.subElements.productForm.removeEventListener("item-deleted", this.handleListAlter);
     this.subElements.productForm.removeEventListener("item-dragged", this.handleListAlter);
   }
